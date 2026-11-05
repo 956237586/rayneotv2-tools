@@ -43,6 +43,27 @@ adb -s <serial> shell /data/app/~~<随机串>/moe.shizuku.privileged.api-<随机
 - 服务进程父进程是 init（`ps -A -o PID,PPID,USER,NAME | grep shizuku_server` 可见 PPID=1），**adb 断开/拔线不影响**；
 - 但**设备每次重启后要重跑一次**，它不会开机自启。
 
+## 耗电分析（查“到底谁在耗电”）
+
+这台机器框架里没有电池设备，`batterystats` 算不出每进程 mAh（实测 `Capacity: 1000, Computed drain: 0, actual drain: 0`），
+所以 App 用“电量曲线 + 进程 CPU 占比”两条腿归因：
+
+- 电量/温度：每 60 秒读厂商写进 `Settings.Global` 的 `battery` / `battery_temperature` / `battery_discharging`
+- 进程 CPU：每 60 秒调一次系统自带的 `dumpsys cpuinfo`（最近 5 分钟窗口里各进程占全部 CPU 的百分比）。
+  不用 `/proc/<pid>/stat` 差分，是因为逐 pid 要 fork 400+ 次、实测 11.7 秒（再读 cmdline 23.6 秒），
+  60 秒采一次等于自己成了最大的耗电项
+
+数据都在 `Android/data/com.rayneo.diag/files/logs/`，`power.csv` 1.5 MB 滚动、留 6 个 `power_*.csv.gz`：
+
+```
+# S: ts,battery%,temp,discharging,proc_count
+S,2026-11-05 23:55:37,55,41,1,101
+# P: ts,pid,owner,name,cpu%
+P,2026-11-05 23:55:37,508,mediacodec,android.hardware.media.c2@1.2-service,11.00
+```
+
+界面（主页工具栏「耗电分析」）给三张图：电量趋势、温度趋势、Top6 进程 CPU 走势，外加「这段时间谁最吃 CPU」排行。
+**点排行里任意一行，就把那行的完整包名/进程名复制到剪贴板**（系统进程没有包名，复制出来的是进程名）。
 ## 投屏
 
 双击 `watch-screen.cmd`，等价于：

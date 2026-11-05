@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.rayneo.diag"
-    android:versionCode="4"
-    android:versionName="1.3">
+    android:versionCode="5"
+    android:versionName="1.4">
 
     <uses-sdk android:minSdkVersion="24" android:targetSdkVersion="34" />
 
@@ -42,8 +42,18 @@
             android:exported="true"
             android:label="Global 设置（只读）" />
 
+        <activity
+            android:name=".PowerActivity"
+            android:exported="true"
+            android:label="耗电分析" />
+
         <service
             android:name=".BatteryLogService"
+            android:exported="true"
+            android:foregroundServiceType="dataSync" />
+
+        <service
+            android:name=".PowerLogService"
             android:exported="true"
             android:foregroundServiceType="dataSync" />
 

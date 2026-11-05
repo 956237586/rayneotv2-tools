@@ -116,6 +116,11 @@ public class MainActivity extends Activity {
         bar.addView(button("Shizuku 授权", new View.OnClickListener() {
             @Override public void onClick(View v) { requestShizuku(); }
         }));
+        bar.addView(button("耗电分析", new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, PowerActivity.class));
+            }
+        }));
         bar.addView(button("复制", new View.OnClickListener() {
             @Override public void onClick(View v) { copyAll(); }
         }));
@@ -288,6 +293,7 @@ public class MainActivity extends Activity {
                 {"充电保护", "1".equals(care) ? "开启" : "关闭"},
                 {"框架视角", "present=" + global("battery_present") + "（框架无电池设备）"},
                 {"采样记录", log},
+                {"归因采样", PowerLogService.summary(this)},
         };
     }
 
