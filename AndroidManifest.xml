@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.rayneo.diag"
-    android:versionCode="5"
-    android:versionName="1.4">
+    android:versionCode="6"
+    android:versionName="1.5">
 
     <uses-sdk android:minSdkVersion="24" android:targetSdkVersion="34" />
 
@@ -46,6 +46,11 @@
             android:name=".PowerActivity"
             android:exported="true"
             android:label="耗电分析" />
+
+        <activity
+            android:name=".ProcessActivity"
+            android:exported="true"
+            android:label="进程列表" />
 
         <service
             android:name=".BatteryLogService"

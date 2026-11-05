@@ -64,6 +64,14 @@ P,2026-11-05 23:55:37,508,mediacodec,android.hardware.media.c2@1.2-service,11.00
 
 界面（主页工具栏「耗电分析」）给三张图：电量趋势、温度趋势、Top6 进程 CPU 走势，外加「这段时间谁最吃 CPU」排行。
 **点排行里任意一行，就把那行的完整包名/进程名复制到剪贴板**（系统进程没有包名，复制出来的是进程名）。
+## 进程列表（v1.5）
+
+主页工具栏「进程列表」（`com.rayneo.diag/.ProcessActivity`）给完整进程表：
+
+- 数据：`ps -A -o PID,PPID,USER,RSS,NAME` 全量（本机 400 个左右，含内核线程）+ `dumpsys cpuinfo` 的 CPU 占比，按 CPU 降序
+- 每行：进程名 / PID / 属主 / 内存 MB / CPU%，点行看详情、复制包名；顶部有「仅第三方应用」筛选和 `复制列表`
+- **只有真正装在 data 分区的第三方应用**（`pm list packages -3` 口径）才出现「结束」按钮，点了走 `am force-stop`；系统组件、`system_server`、内核线程、以及 `com.sei.serialportservice`（电量就是它写的）一律不给结束
+- 实现用原生 `ListView` + `convertView` 复用，不引 AndroidX：初版 ScrollView 逐行建 400 个 View 会直接 ANR（`Input dispatching timed out … 5000ms`）
 ## 投屏
 
 双击 `watch-screen.cmd`，等价于：

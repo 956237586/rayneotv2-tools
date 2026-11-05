@@ -121,6 +121,11 @@ public class MainActivity extends Activity {
                 startActivity(new Intent(MainActivity.this, PowerActivity.class));
             }
         }));
+        bar.addView(button("进程列表", new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, ProcessActivity.class));
+            }
+        }));
         bar.addView(button("复制", new View.OnClickListener() {
             @Override public void onClick(View v) { copyAll(); }
         }));
