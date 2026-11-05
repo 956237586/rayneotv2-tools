@@ -1,0 +1,11 @@
+# scrcpy 原始程序（约 11 MB 二进制，不入库；用时按需下载）
+scrcpy/scrcpy-win64-v5.0.1/
+scrcpy/*.zip
+
+# 构建中间产物
+classes/
+dexout/
+app.unsigned.apk
+app.aligned.apk
+*.idsig
+*.log

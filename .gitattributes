@@ -1,0 +1,7 @@
+# Windows 批处理必须是 CRLF，否则 cmd 解析异常
+*.cmd text eol=crlf
+*.ps1 text eol=crlf
+*.apk binary
+*.jar binary
+*.aar binary
+*.keystore binary
